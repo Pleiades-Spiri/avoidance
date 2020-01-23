@@ -100,6 +100,7 @@ void StarPlanner::buildLookAheadTree() {
           float h = treeHeuristicFunction(tree_.size() - 1);
           tree_.back().heuristic_ = h;
           tree_.back().total_cost_ = tree_[origin].total_cost_ - tree_[origin].heuristic_ + candidate.cost + h;
+          tree_.back().depth_ = tree_[origin].depth_ + 1;
           children++;
         }
       }
@@ -125,8 +126,22 @@ void StarPlanner::buildLookAheadTree() {
     cost_image_data.clear();
     candidate_vector.clear();
   }
-  // smoothing between trees
-  int tree_end = origin;
+
+  // find best node to follow, taking into account A* completion
+  float minimal_cost = HUGE_VAL;
+  int minimal_cost_index = 0;
+  for (size_t i = 0; i < tree_.size(); i++) {
+    if (!(tree_[i].closed_)) {
+      float node_distance = (tree_[i].getPosition() - position_).norm();
+      if (tree_[i].total_cost_ < minimal_cost && node_distance < max_path_length_) {
+        minimal_cost = tree_[i].total_cost_ / (tree_[i].depth_ + 1);
+        minimal_cost_index = i;
+      }
+    }
+  }
+
+  // build final tree
+  int tree_end = minimal_cost_index;
   path_node_positions_.clear();
   while (tree_end > 0) {
     path_node_positions_.push_back(tree_[tree_end].getPosition());
