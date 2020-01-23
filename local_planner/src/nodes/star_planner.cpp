@@ -132,8 +132,7 @@ void StarPlanner::buildLookAheadTree() {
   int minimal_cost_index = 0;
   for (size_t i = 0; i < tree_.size(); i++) {
     if (!(tree_[i].closed_)) {
-      float node_distance = (tree_[i].getPosition() - position_).norm();
-      if (tree_[i].total_cost_ < minimal_cost && node_distance < max_path_length_) {
+      if (tree_[i].total_cost_ < minimal_cost) {
         minimal_cost = tree_[i].total_cost_ / (tree_[i].depth_ + 1);
         minimal_cost_index = i;
       }
