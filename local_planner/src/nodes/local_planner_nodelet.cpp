@@ -242,6 +242,7 @@ void LocalPlannerNodelet::cmdLoopCallback(const ros::TimerEvent& event) {
       setSystemStatus(MAV_STATE::MAV_STATE_FLIGHT_TERMINATION);
       if (!position_not_received_error_sent_) {
         // clang-format off
+        ROS_INFO("Debugging Safy");
         ROS_WARN("\033[1;33m Planner abort: missing required data from FCU \n \033[0m");
         ROS_WARN("----------------------------- Debugging Info -----------------------------");
         ROS_WARN("Local planner has not received a position from FCU, check the following: ");

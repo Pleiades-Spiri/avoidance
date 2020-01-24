@@ -360,7 +360,6 @@ void WaypointGenerator::adaptSpeed() {
       wrapPolar(p_pol_fcu);
       speed_ *= scaleToFOV(fov_fcu_frame_, p_pol_fcu);
     }
-
     // Scale the pose_to_wp by the speed
     Eigen::Vector3f pose_to_wp = output_.goto_position - position_;
     if (pose_to_wp.norm() > 0.1f) pose_to_wp.normalize();

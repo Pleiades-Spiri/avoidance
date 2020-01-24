@@ -232,6 +232,7 @@ void createPoseMsg(Eigen::Vector3f& out_waypt, Eigen::Quaternionf& out_q, const 
   float roll = 0.0f, pitch = 0.0f;
   out_q = Eigen::AngleAxisf(roll, Eigen::Vector3f::UnitX()) * Eigen::AngleAxisf(pitch, Eigen::Vector3f::UnitY()) *
           Eigen::AngleAxisf(yaw, Eigen::Vector3f::UnitZ());
+
 }
 
 float getYawFromQuaternion(const Eigen::Quaternionf q) {

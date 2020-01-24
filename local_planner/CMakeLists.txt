@@ -154,7 +154,7 @@ add_dependencies(local_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPO
 add_dependencies(local_planner_nodelet local_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(avoidance_node src/avoidance_node.cpp)
+#add_executable(avoidance_node src/avoidance_node.cpp)
 add_executable(local_planner_node src/nodes/local_planner_node_main.cpp)
 
 ## Add cmake target dependencies of the executable
