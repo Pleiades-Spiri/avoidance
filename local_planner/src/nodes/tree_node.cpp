@@ -8,7 +8,7 @@ TreeNode::TreeNode() : total_cost_{0.0f}, heuristic_{0.0f}, origin_{0}, closed_{
 }
 
 TreeNode::TreeNode(int from, const Eigen::Vector3f& pos, const Eigen::Vector3f& vel)
-    : total_cost_{0.0f}, heuristic_{0.0f}, origin_{from}, closed_{false} {
+    : total_cost_{0.0f}, heuristic_{0.0f}, origin_{from}, closed_{false}, depth_(0) {
   position_ = pos;
   velocity_ = vel;
 }

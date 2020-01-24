@@ -60,8 +60,6 @@ void StarPlanner::buildLookAheadTree() {
   for (int n = 0; n < n_expanded_nodes_ && is_expanded_node; n++) {
     Eigen::Vector3f origin_position = tree_[origin].getPosition();
     Eigen::Vector3f origin_velocity = tree_[origin].getVelocity();
-    PolarPoint facing_goal = cartesianToPolarHistogram(goal_, origin_position);
-    float distance_to_goal = (goal_ - origin_position).norm();
 
     histogram.setZero();
     generateNewHistogram(histogram, cloud_, origin_position);
