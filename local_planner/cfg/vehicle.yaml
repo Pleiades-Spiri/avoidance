@@ -39,7 +39,7 @@ dictitems:
     state: []
   heading_cost_param_: 0.5
   max_point_age_s_: 20.0
-  min_num_points_per_cell_: 25 # Tune to your sensor requirements!
+  min_num_points_per_cell_: 1 # Tune to your sensor requirements! Safy changed it from 25
   min_sensor_range_: 0.2
   n_expanded_nodes_: 10
   no_progress_slope_: -0.0007

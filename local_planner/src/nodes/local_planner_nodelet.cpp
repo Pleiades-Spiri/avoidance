@@ -260,14 +260,16 @@ void LocalPlannerNodelet::cmdLoopCallback(const ros::TimerEvent& event) {
 
   // Check if all information was received
   ros::Time now = ros::Time::now();
+  std::cout<<"last_wp_time: ";
+  std::cout<< last_wp_time_ << std::endl;
   ros::Duration since_last_cloud = now - last_wp_time_;
   ros::Duration since_start = now - start_time_;
 
   checkFailsafe(since_last_cloud, since_start, hover_);
-
   // send waypoint
   if (avoidance_node_->getSystemStatus() == MAV_STATE::MAV_STATE_ACTIVE) {
     calculateWaypoints(hover_);
+    std::cout<<"Waypoint calculated"<<std::endl;
   }
 
   position_received_ = false;
@@ -409,17 +411,20 @@ void LocalPlannerNodelet::pointCloudCallback(const sensor_msgs::PointCloud2::Con
     ros::Time lastCloudReceived = pcl_conversions::fromPCL(cameras_[index].untransformed_cloud_.header.stamp);
     return msg->header.stamp - lastCloudReceived;
   };
-
+  //Safy has changed ros::duration value from 0.3 to 0.1  
   if (cameras_[index].received_ && timeSinceLast() < ros::Duration(0.3)) {
+    std::cout<<"Debug local_planner_nodelet.cpp ln 416 rejecting PCL for duration"<<std::endl;
+    std::cout<<timeSinceLast()<<std::endl;
     return;
   }
-
+  std::cout<<"Debug local_planner_nodelet.cpp ln 418 Camera updating PCL"<<std::endl;
   pcl::fromROSMsg(*msg, cameras_[index].untransformed_cloud_);
   cameras_[index].received_ = true;
   cameras_[index].camera_cv_->notify_all();
 
   // this runs once at the beginning to get the transforms
   if (!cameras_[index].transform_registered_) {
+    std::cout<<"Debug local_planner_nodelet.cpp ln 426: Registering transform"<<std::endl;
     std::lock_guard<std::mutex> tf_list_guard(buffered_transforms_mutex_);
     std::pair<std::string, std::string> transform_frames;
     transform_frames.first = msg->header.frame_id;
@@ -491,6 +496,7 @@ void LocalPlannerNodelet::checkFailsafe(ros::Duration since_last_cloud, ros::Dur
 }
 
 void LocalPlannerNodelet::pointCloudTransformThread(int index) {
+  std::cout<<"Debug local_planner_nodelet.cpp ln 498: Transforming Point Cloud frame"<<std::endl;
   while (!should_exit_) {
     bool waiting_on_transform = false;
     bool waiting_on_cloud = false;

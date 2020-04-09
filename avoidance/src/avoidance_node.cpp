@@ -63,13 +63,18 @@ void AvoidanceNode::checkFailsafe(ros::Duration since_last_cloud, ros::Duration 
   ros::Duration timeout_termination = ros::Duration(timeout_termination_);
   ros::Duration timeout_critical = ros::Duration(timeout_critical_);
   ros::Duration timeout_startup = ros::Duration(timeout_startup_);
-
+  std::cout<<"Avoidance point cloud check time"<<std::endl;
+  std::cout<<"since_last_cloud :";
+  std::cout<<since_last_cloud<<std::endl;
+  std::cout<<"since_start :";
+  std::cout<<since_start<<std::endl;
   if (since_last_cloud > timeout_termination && since_start > timeout_termination) {
     setSystemStatus(MAV_STATE::MAV_STATE_FLIGHT_TERMINATION);
     ROS_WARN("\033[1;33m Planner abort: missing required data \n \033[0m");
   } else {
     if (since_last_cloud > timeout_critical && since_start > timeout_startup) {
       if (position_received_) {
+	std::cout<<"Debug avoidance_node.cpp ln 77 Position recieved"<<std::endl;
         hover = true;
         setSystemStatus(MAV_STATE::MAV_STATE_CRITICAL);
         std::string not_received = "";
